@@ -1,0 +1,57 @@
+<div class="container pt-4">
+ <div class="row">
+  <div class="col-lg-7 offset-lg-3">
+      <div class="card text-center">
+        <div class="card-body">
+            <h3>Agregar canciones
+              <div class="d-flex align-items-center">
+                <div *ngIf="loading" class="spinner-border ms-auto text-info" role="status" aria-hidd="true"></div>
+              </div>
+            </h3>
+            <span *ngIf="submitted && crearProducto.invalid" class="badge bg-danger">TODOS LOS CAMPOS SON OBLIGATORIOS</span>
+            <form class="mt-4" [formGroup]="crearProducto" (ngSubmit)="agregarProducto()">
+
+              <div class="row">
+                <div class="col">
+                  <input type="number" class="form-control "
+                  formControlName="numero" placeholder="#">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control"
+                  formControlName="artista"placeholder="Artista">
+                </div>
+              </div>
+
+              <div class="row mt-2">
+                <div class="col">
+                  <input type="text" class="form-control "
+                  formControlName="nombre"placeholder="Nombre">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control"
+                  formControlName="cancion" placeholder="Canción">
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col">
+                  <input type="number" class="form-control "
+                  formControlName="duracion"placeholder="Duración">
+                </div>
+                <div class="col">
+                  <input type="text" class="form-control"
+                  formControlName="album" placeholder="Álbum">
+                </div>
+              </div>
+
+
+                  <div class="mt-3">
+                    <button type="text" class="btn btn-primary m-lg-2" routerLink="/lista-canciones">Volver</button>
+                    <button type="submit" class="btn btn-dark">Agregar</button>
+
+                  </div>
+            </form>
+        </div>
+      </div>
+  </div>
+ </div>
+</div>

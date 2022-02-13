@@ -13,6 +13,13 @@ export class ProductoService {
     return this.firestore.collection('productos').add(producto);
   }
   getProductos(): Observable<any> {
-    return this.firestore.collection('productos').snapshotChanges();
+
+    return this.firestore.collection('productos', ref => ref.orderBy('fechaCreacion', 'asc')).snapshotChanges();
+  }
+  eliminarProductos(id: string): Promise<any> {
+    return this.firestore.collection('productos').doc(id).delete();
+  }
+  getProducto(id: string): Observable<any> {
+    return this.firestore.collection('productos').doc(id).snapshotChanges();
   }
 }

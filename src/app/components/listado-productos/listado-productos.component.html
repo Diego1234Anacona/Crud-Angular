@@ -3,10 +3,10 @@
     <div class="card-body">
       <span class="h3">Listado de canciones</span>
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-primary me-md-2" routerLink="/crear-producto">Agregar</button>
+        <button class="btn btn-primary me-md-5" routerLink="/crear-producto">Agregar</button>
       </div>
-
-      <table class="table table-success table-striped mt-5">
+        <h5 *ngIf="productos.length ==0">Sin datos para mostrar</h5>
+      <table *ngIf="productos.length > 0" class="table table-success table-striped mt-5">
         <thead>
           <tr>
             <th>#</th>
@@ -19,37 +19,24 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th >1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>Ella</td>
-            <td>4</td>
-            <td>E</td>
+          <tr *ngFor="let producto of productos">
+            <th >{{producto.numero}}</th>
+            <th >{{producto.artista}}</th>
+            <th >{{producto.nombre}}</th>
+            <th >{{producto.cancion}}</th>
+            <th >{{producto.duracion}}</th>
+            <th >{{producto.album}}</th>
+
             <td>
-              <i class="fas fa-edit fa-lg text-primary"></i>
-              <i class="fas fa-trash-alt fa-lg text-primary m-lg-2"></i>
+              <i class="fas fa-edit fa-lg text-primary" [routerLink]="['/editProducto/',producto.id]"></i>
+              <i (click)=" eliminarProducto(producto.id)"class="fas fa-trash-alt fa-lg text-primary m-lg-2"></i>
             </td>
           </tr>
-          <tr>
-            <th >1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>Ella</td>
-            <td>4</td>
-            <td>E</td>
-            <td>
-              <i class="fas fa-edit fa-lg text-primary"></i>
-              <i class="fas fa-trash-alt fa-lg text-primary m-lg-2"></i>
-            </td>
-          </tr>
-
-
 
 
         </tbody>
       </table>
-   
+
     </div>
   </div>
 

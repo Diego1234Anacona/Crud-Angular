@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProductoService } from 'src/app/services/producto.service';
 
 
@@ -13,24 +13,30 @@ export class CrearProductoComponent implements OnInit {
  crearProducto: FormGroup;
  submitted = false;
  loading = false;
+ id: string | null;
+ titulo = 'Agregar Producto';
 
-  constructor(private fb: FormBuilder,
+    constructor(private fb: FormBuilder,
               private _productoService: ProductoService,
               private router: Router,
-             ) {
-    this.crearProducto = this.fb.group({
-      numero: ['', Validators.required],
-    artista: ['', Validators.required],
-    nombre: ['', Validators.required],
-    cancion: ['', Validators.required],
-    duracion: ['', Validators.required],
-    album: ['', Validators.required],
+              private aRoute: ActivatedRoute,
 
+             ) {
+     this.crearProducto = this.fb.group({
+       numero: ['', Validators.required],
+       artista: ['', Validators.required],
+      nombre: ['', Validators.required],
+      cancion: ['', Validators.required],
+      duracion: ['', Validators.required],
+     album: ['', Validators.required],
 
     })
+    this.id = this.aRoute.snapshot.paramMap.get('id');
+    console.log(this.id)
   }
 
   ngOnInit(): void {
+    this.esEditar();
   }
   agregarProducto() {
     this.submitted = true;
@@ -44,24 +50,46 @@ export class CrearProductoComponent implements OnInit {
       nombre: this.crearProducto.value.nombre,
       cancion: this.crearProducto.value.cancion,
       duracion: this.crearProducto.value.duracion,
-      album: this.crearProducto.value.album
+      album: this.crearProducto.value.album,
+      fechaCreacion: new Date(),
+      fechaActualizacion: new Date()
 
     }
-
+      this.loading = true;
     this._productoService.agregarProducto(producto).then(() => {
         console.log('producto registrado con exito!'
         );
-        this.loading
+        this.loading = false;
         this.router.navigate(['listado-productos']);
     }). catch((error ) => {
+
       console.log(error );
+      this.loading = false;
     })
+
+  }
+  esEditar() {
+    this.titulo = 'Editar Producto';
+    if (this.id !== null) {
+      this.loading = true;
+      this._productoService.getProducto(this.id).subscribe(data => {
+        this.loading = false;
+        console.log(data.payload.data()['nombre']);
+        this.crearProducto.setValue({
+          numero: data.payload.data()['numero'],
+          artista: data.payload.data()['artista'],
+          nombre: data.payload.data()['nombre'],
+          cancion: data.payload.data()['cancion'],
+          duracion: data.payload.data()['duracion'],
+          album: data.payload.data()['album'],
+        })
+      })
+    }
   }
 }
 
 
 
-function con(producto: any, registrado: any, con: any, arg3: any) {
-  throw new Error('Function not implemented.');
-}
+
+
 
